@@ -1,0 +1,21 @@
+{
+    "name": "mostafizurrahman/expancetraker",
+    "description": "A simple Cli Application for Track Income and Expance",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "ExpanceTraker\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Md  Mostafizur Rahman",
+            "email": "jahid32@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "symfony/console": "7.2.x-dev"
+    }
+}
