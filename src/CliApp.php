@@ -1,6 +1,7 @@
 <?php
 namespace ExpanceTraker;
 
+use ExpanceTraker\Model\Transaction;
 use ExpanceTraker\Service\TransactionService;
 
 class CliApp
@@ -24,10 +25,12 @@ class CliApp
   ];
 
   private $transection = "";
+  private $categories = [];
 
   public function __construct()
   {
-    $this->transection = new TransactionService()
+    $this->transection = new TransactionService();
+    $this->categories = $this->transection->getCategories();
   }
 
   public  function run() : void
@@ -41,7 +44,16 @@ class CliApp
       switch ($choise) {
         case self::ADD_INCOME:
             $amount = trim(readline('Enter amount: '));
-            $category = trim(readline("Enter category: "));
+
+            foreach ($this->categories as $key =>  $cat) {
+              printf('%d : %s ', $key, $cat['name']);
+              echo "\n";
+            }
+            $key = trim(readline("Choose Category: "));
+
+            $transection = new Transaction($amount, $this->categories[$key]['name']);
+            print_r($transection);
+            $this->transection->addTransaction($transection, 'income');
 
           break;
         case self::ADD_EXPANCE:
@@ -58,8 +70,10 @@ class CliApp
         # code...
         break;
         case self::VIEW_CATEGORIES:
-         $categories =  $this->transection->getCategories();
-         print_r($categories);
+         foreach ($this->categories as $cat) {
+          printf('Name : %s Type : %s', $cat['name'], $cat['type']);
+           echo "\n";
+         }
         break;
         case self::EXIT:
         return;

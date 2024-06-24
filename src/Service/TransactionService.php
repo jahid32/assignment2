@@ -3,7 +3,7 @@
 namespace ExpanceTraker\Service;
 
 use ExpanceTraker\Model\Transaction;
-use ExpanceTraker\Model\Category;
+
 
 class TransactionService
 {
@@ -16,7 +16,11 @@ class TransactionService
         $file = $type === 'income' ? $this->incomeFile : $this->expenseFile;
         $transactions = $this->readTransactions($file);
         $transactions[] = $transaction->toArray();
-        file_put_contents($file, json_encode($transactions, JSON_PRETTY_PRINT));
+        $s = file_put_contents($file, json_encode($transactions, JSON_PRETTY_PRINT));
+        
+        if(!$s){
+           throw new \Exception("Unable to write file: " . $file);
+        }
     }
 
     public function getTransactions(string $type): array
@@ -28,7 +32,8 @@ class TransactionService
 
     public function getCategories(): array
     {
-        return array_map([Category::class, 'fromArray'], $this->readTransactions($this->categoryFile));
+
+        return  $this->readTransactions($this->categoryFile);
     }
 
     public function getSavings(): float
@@ -43,10 +48,11 @@ class TransactionService
     private function readTransactions(string $file): array
     {
         if (!file_exists($file)) {
-            return [];
+            throw new \Exception("File not found: " . $file);
         }
-
+        echo $file;
         $data = json_decode(file_get_contents($file), true);
+
         return $data ?? [];
     }
 }
