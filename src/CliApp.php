@@ -33,7 +33,7 @@ class CliApp
     $this->categories = $this->transection->getCategories();
   }
 
-  public  function run() : void
+  public function run() : void
   {
     while (true) {
       foreach ($this->options as $option => $lavel) {
@@ -43,8 +43,8 @@ class CliApp
       $choise = intval(readline('Enter your choise: '));
       switch ($choise) {
         case self::ADD_INCOME:
+        case self::ADD_EXPANCE:
             $amount = trim(readline('Enter amount: '));
-
             foreach ($this->categories as $key =>  $cat) {
               printf('%d : %s ', $key, $cat['name']);
               echo "\n";
@@ -52,22 +52,36 @@ class CliApp
             $key = trim(readline("Choose Category: "));
 
             $transection = new Transaction($amount, $this->categories[$key]['name']);
-            print_r($transection);
-            $this->transection->addTransaction($transection, 'income');
 
-          break;
-        case self::ADD_EXPANCE:
-        # code...
+            $this->transection->addTransaction($transection, $this->categories[$key]['type']);
+
         break;
         case self::VIEW_INCOMES:
-        # code...
+          $incomes = $this->transection->getTransactions('income');
+           echo "\n =========================================\n";
+          foreach ($incomes as  $inc) {
+
+              printf('Amount : %.2f ', $inc->getAmount());
+              echo "\n";
+            }
+            echo "=========================================\n";
         break;
 
         case self::VIEW_EXPENSES:
-        # code...
+        $expance = $this->transection->getTransactions('expance');
+           echo "\n =========================================\n";
+          foreach ($expance as  $exp) {
+
+              printf('Amount : %.2f ', $exp->getAmount());
+              echo "\n";
+            }
+            echo "=========================================\n";
         break;
         case self::VIEW_SAVINGS:
-        # code...
+        $savings = $this->transection->getSavings();
+        echo "\n ------------------------------------\n";
+        printf("Total Savings: %.2f", $savings);
+         echo "\n ------------------------------------\n";
         break;
         case self::VIEW_CATEGORIES:
          foreach ($this->categories as $cat) {

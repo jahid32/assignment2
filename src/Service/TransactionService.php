@@ -13,14 +13,10 @@ class TransactionService
 
     public function addTransaction(Transaction $transaction, string $type): void
     {
-        $file = $type === 'income' ? $this->incomeFile : $this->expenseFile;
+        $file = strtolower($type) === 'income' ? $this->incomeFile : $this->expenseFile;
         $transactions = $this->readTransactions($file);
         $transactions[] = $transaction->toArray();
-        $s = file_put_contents($file, json_encode($transactions, JSON_PRETTY_PRINT));
-        
-        if(!$s){
-           throw new \Exception("Unable to write file: " . $file);
-        }
+        file_put_contents($file, json_encode($transactions, JSON_PRETTY_PRINT));
     }
 
     public function getTransactions(string $type): array
@@ -32,7 +28,6 @@ class TransactionService
 
     public function getCategories(): array
     {
-
         return  $this->readTransactions($this->categoryFile);
     }
 
@@ -50,7 +45,6 @@ class TransactionService
         if (!file_exists($file)) {
             throw new \Exception("File not found: " . $file);
         }
-        echo $file;
         $data = json_decode(file_get_contents($file), true);
 
         return $data ?? [];
