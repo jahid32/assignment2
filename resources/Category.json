@@ -1,0 +1,26 @@
+[
+  {
+    "name" : "Salary",
+    "type" : "Income"
+  },
+  {
+    "name" : "Business",
+    "type" : "Income"
+  },
+  {
+    "name" : "Loan",
+    "type" : "Income"
+  },
+  {
+    "name" : "Rent",
+    "type" : "Expance"
+  },
+  {
+    "name" : "Food",
+    "type" : "Expance"
+  },
+  {
+    "name" : "Family",
+    "type" : "Expance"
+  }
+]
