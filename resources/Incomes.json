@@ -6,5 +6,9 @@
     {
         "amount": 450.45,
         "category": "Salary"
+    },
+    {
+        "amount": 230,
+        "category": "Salary"
     }
 ]

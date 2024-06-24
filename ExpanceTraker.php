@@ -10,6 +10,5 @@ use ExpanceTraker\CliApp;
 
 $app = new CliApp();
 
-var_dump($app);
 
 $app->run();
