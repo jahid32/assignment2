@@ -1,8 +1,8 @@
 <?php
 namespace ExpanceTraker;
 
-use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Input\ArrayInput;
+use ExpanceTraker\Service\TransactionService;
+
 class CliApp
 {
   private const ADD_INCOME = 1;
@@ -23,6 +23,13 @@ class CliApp
     self::EXIT => "EXIT",
   ];
 
+  private $transection = "";
+
+  public function __construct()
+  {
+    $this->transection = new TransactionService()
+  }
+
   public  function run() : void
   {
     while (true) {
@@ -35,9 +42,7 @@ class CliApp
         case self::ADD_INCOME:
             $amount = trim(readline('Enter amount: '));
             $category = trim(readline("Enter category: "));
-            $command = $application->find('add-income');
-            $input = new ArrayInput(['amount' => $amount, 'category' => $category]);
-            $command->run($input, $output);
+
           break;
         case self::ADD_EXPANCE:
         # code...
@@ -53,9 +58,8 @@ class CliApp
         # code...
         break;
         case self::VIEW_CATEGORIES:
-        $command = $application->find('view-categories');
-        $input = new ArrayInput([]);
-        $command->run($input, $output);
+         $categories =  $this->transection->getCategories();
+         print_r($categories);
         break;
         case self::EXIT:
         return;

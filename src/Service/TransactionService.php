@@ -25,12 +25,6 @@ class TransactionService
         return array_map([Transaction::class, 'fromArray'], $this->readTransactions($file));
     }
 
-    public function addCategory(Category $category): void
-    {
-        $categories = $this->getCategories();
-        $categories[] = $category->toArray();
-        file_put_contents($this->categoryFile, json_encode($categories, JSON_PRETTY_PRINT));
-    }
 
     public function getCategories(): array
     {
